@@ -45,6 +45,23 @@
   [state]
   (reduce (fn [x y] (or x y))(map swapper-winner (row-colapser (state-converter state)))))
 
+(defn column-colapse
+  "colapse columns into one vector"
+  [state]
+  (reduce (fn [carry line]
+            (let [[x y z] line
+                  [xc yc zc] carry]
+              [(+ xc x) (+ y yc) (+ z zc)])) state))
+
+(defn column-calculate
+  "Calculate if there are 3 in a column"
+  [state]
+  (->> state
+       (state-converter ,,,)
+       (column-colapse ,,,)
+       (map swapper-winner ,,,)
+       (reduce (fn [x y] (or x y)) ,,,)))
+
 (defn final-state [state]
   (cond
     (row-calculate state) true
@@ -67,7 +84,30 @@
 
 
 (defn test-state-2 []
-  [[:x :x :x] [:x nil nil] [:x nil nil]])
+  [[:o :x :x] [:x nil nil] [:x nil nil]])
+
+(defn test-state-3
+  "Returns a winning row state"
+  []
+  [[:x nil nil] [:x nil :o] [:x nil :o]])
+
+(defn diagonal-map
+  "returns a map to filter everything but the diagonals"
+  []
+  [[true false true] [false true false] [true false true]])
+
+
+;; TODO 
+(defn diagonal-solve
+  "returns true if the diagoanls are solved"
+  [state]
+  (-> state
+      (map (diagonal-map) ,,,)          ;zip it together with the filter map
+      ))
+
+;; sketch for the above
+;; TO DO
+(map (fn [x] (let [[l r] x] (and r l))) (map vector (diagonal-map) (test-state)))
 
 
 (defn make-a-move
