@@ -9,17 +9,37 @@ things left to be done on it ofc.
 
 ## Installation
 
-Clone the repository and run with `lein run`. I am looking into
-creating a  nix derivation  for it. If you just want to run it
+- Clone the repository and run with `lein run`. 
+- I am looking into
+creating a  nix derivation  for it. 
+- If you just want to run it
 download the `jar` file and run it locally with
 
 ```bash
    java -jar tic-tac-toe-0.1.0-standalone.jar [args]
 ```
 
+## How to Play
+
+1. `x` goes first
+2. put down a number from 1 to 9 each number being the position you want to play. The positions are as follows:
+```text
+1 2 3
+4 5 6
+7 8 9
+```
+3. `o` goes after
+4. loop on
+
+## Known issues (will not fix - probably)
+
+- draws are not detected
+- no input sanitisation
+- there are no tests set up
+
 ## License
 
-Copyright © 2021 FIXME
+Copyright © 2021
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
