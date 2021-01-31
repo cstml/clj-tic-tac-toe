@@ -10,8 +10,8 @@
 (defn change-state
   "Returns a new state vector with the swapped state"
   [state player row col]
-  (do(println col "-" row )
-     (assoc state row (assoc (nth state row) col player))))
+  (do (println col "-" row )
+      (assoc state row (assoc (nth state row) col player))))
 
 (defn swapper
   "A swapper that helps calculate if there are 3 of a kind on any given row"
@@ -118,19 +118,20 @@
   and another one where the move is read from the stdin
   
   TODO: input sanitisation"
-  ([state player] ;; the normal input one
+  
+  ([state player]                            ;; the normal input version
    (loop [state state
           player player]
-     (println "Hello")
      (let [result (make-a-move state player (dec(int(read))))]
        (cond
          (= result :error) (recur state player) 
          true result ))))
-  ([state player move] ;; the testing purposes one
+  
+  ([state player move]                       ;; the testing purposes one
    (let [row (int(/ move 3))
          col (int(mod move 3))]
      (do (println row "-" col))
-     (case (nth (nth state col) row)
+     (case (nth (nth state row) col)
        nil (change-state state player row col)
        :error))))
 
