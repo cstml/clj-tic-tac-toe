@@ -58,15 +58,16 @@
   "Calculate if there are 3 in a column"
   [state]
   (->> state
-       (state-converter ,,,)
-       (column-colapse ,,,)
+       (state-converter    ,,,)
+       (column-colapse     ,,,)
        (map swapper-winner ,,,)
        (reduce (fn [x y] (or x y)) ,,,)))
 
 (defn final-state [state]
   (cond
-    (row-calculate state)    true
-    (column-calculate state) true
+    (row-calculate state)      true
+    (column-calculate state)   true
+    (diagonal-calculate state) true
     true false))
 
 (defn player-win [player]
@@ -92,6 +93,11 @@
   "Returns a winning row state"
   []
   [[:x nil nil] [:x nil :o] [:x nil :o]])
+
+(defn test-state-4
+  "Returns a winnig diagonal-1 state"
+  []
+  [[:o :x :x] [:o :o nil] [:x nil :o]])
 
 (defn diagonal-map
   "returns a map to filter everything but the diagonals"
@@ -137,6 +143,40 @@
        nil (change-state state player row col)
        :error))))
 
+(defn diagonal-1 [] [[true nil nil] [nil true nil] [nil nil true]])
+
+(defn diagonal-2 [] [[nil nil true] [nil true nil] [true nil nil]])
+
+(defn zip 
+  "Zips to vectors together"
+  [x y]
+  (map (fn [x y] [x y]) x y ))
+
+(defn filter-board
+  "Filter deletes all the other entries except for the ones
+  which are true inside the filter"
+  [state filter]
+  (->> state
+       (map zip filter ,,,)
+       (map (fn [x] (map (fn [x] (let [[l r] x] (and l r))) x)),,,)
+       (state-converter ,,,)
+       (map #(apply + %) ,,,)
+       (apply + ,,,)))
+
+(defn test-diagonal
+  "Tests the first diagonal"
+  [state diagonal-filter]
+  (case (filter-board state diagonal-filter)
+    3  true
+    -3 true
+    false))
+
+(defn diagonal-calculate
+  "Tests both diagonals returns true if one is now winning"
+  [state]
+  (or
+   (test-diagonal state (diagonal-1))
+   (test-diagonal state (diagonal-2))))
 
 (defn -main
   "Classic game of Tic Tac Toe"
