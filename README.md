@@ -1,32 +1,21 @@
 # tic-tac-toe
+## clj style
 
-FIXME: description
+Good old Tic-Tac-Toe, a favourite of mine that I try and implement all
+the time to test my understanding of new concepts. This was a fun
+little project to implement in clojure. It is more of a stub than a
+finalised project but nevertheless it works. There are still many
+things left to be done on it ofc.
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Clone the repository and run with `lein run`. I am looking into
+creating a  nix derivation  for it. If you just want to run it
+download the `jar` file and run it locally with
 
-## Usage
-
-FIXME: explanation
-
-    $ java -jar tic-tac-toe-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+```bash
+   java -jar tic-tac-toe-0.1.0-standalone.jar [args]
+```
 
 ## License
 

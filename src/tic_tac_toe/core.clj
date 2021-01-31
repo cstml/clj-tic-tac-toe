@@ -4,7 +4,6 @@
 (defn print-board
   "Prints the board and returns the state"
   [state]
-  (println "Entered the board")
   (doall (map #(do (println %) %) state)))
 
 (defn change-state
@@ -62,6 +61,45 @@
        (column-colapse     ,,,) ; colapse
        (map swapper-winner ,,,) ; swap winner
        (reduce (fn [x y] (or x y)) ,,,))) ; reduce it
+
+
+;; ======= Calculate Diagonals Section
+
+(defn diagonal-1 [] [[true nil nil] [nil true nil] [nil nil true]])
+
+(defn diagonal-2 [] [[nil nil true] [nil true nil] [true nil nil]])
+
+(defn zip 
+  "Zips to vectors together"
+  [x y]
+  (map (fn [x y] [x y]) x y ))
+
+(defn filter-board
+  "Filter deletes all the other entries except for the ones
+  which are true inside the filter"
+  [state filter]
+  (->> state
+       (map zip filter ,,,)
+       (map (fn [x] (map (fn [x] (let [[l r] x] (and l r))) x)),,,)
+       (state-converter ,,,)
+       (map #(apply + %) ,,,)
+       (apply + ,,,)))
+
+(defn test-diagonal
+  "Tests the first diagonal"
+  [state diagonal-filter]
+  (case (filter-board state diagonal-filter)
+    3  true
+    -3 true
+    false))
+
+(defn diagonal-calculate
+  "Tests both diagonals returns true if one is now winning"
+  [state]
+  (or
+   (test-diagonal state (diagonal-1))
+   (test-diagonal state (diagonal-2))))
+
 
 (defn final-state [state]
   (cond
@@ -127,41 +165,6 @@
      (case (nth (nth state row) col)
        nil (change-state state player row col)
        :error))))
-
-(defn diagonal-1 [] [[true nil nil] [nil true nil] [nil nil true]])
-
-(defn diagonal-2 [] [[nil nil true] [nil true nil] [true nil nil]])
-
-(defn zip 
-  "Zips to vectors together"
-  [x y]
-  (map (fn [x y] [x y]) x y ))
-
-(defn filter-board
-  "Filter deletes all the other entries except for the ones
-  which are true inside the filter"
-  [state filter]
-  (->> state
-       (map zip filter ,,,)
-       (map (fn [x] (map (fn [x] (let [[l r] x] (and l r))) x)),,,)
-       (state-converter ,,,)
-       (map #(apply + %) ,,,)
-       (apply + ,,,)))
-
-(defn test-diagonal
-  "Tests the first diagonal"
-  [state diagonal-filter]
-  (case (filter-board state diagonal-filter)
-    3  true
-    -3 true
-    false))
-
-(defn diagonal-calculate
-  "Tests both diagonals returns true if one is now winning"
-  [state]
-  (or
-   (test-diagonal state (diagonal-1))
-   (test-diagonal state (diagonal-2))))
 
 (defn -main
   "Classic game of Tic Tac Toe"
