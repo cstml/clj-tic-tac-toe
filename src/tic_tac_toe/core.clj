@@ -58,17 +58,17 @@
   "Calculate if there are 3 in a column"
   [state]
   (->> state
-       (state-converter    ,,,)
-       (column-colapse     ,,,)
-       (map swapper-winner ,,,)
-       (reduce (fn [x y] (or x y)) ,,,)))
+       (state-converter    ,,,) ; convert states to numerical equivalent
+       (column-colapse     ,,,) ; colapse
+       (map swapper-winner ,,,) ; swap winner
+       (reduce (fn [x y] (or x y)) ,,,))) ; reduce it
 
 (defn final-state [state]
   (cond
-    (row-calculate state)      true
-    (column-calculate state)   true
-    (diagonal-calculate state) true
-    true false))
+    (row-calculate state)      true ; test rows
+    (column-calculate state)   true ; test columns
+    (diagonal-calculate state) true ; test diagonals
+    true false)) ; default value
 
 (defn player-win [player]
   (println "Player " player " Wins!!!"))
@@ -81,10 +81,8 @@
 (defn initial-state []
   [[nil nil nil] [nil nil nil] [nil nil nil]])
 
-
 (defn test-state []
   [[:x nil nil] [:x nil nil] [:x nil nil]])
-
 
 (defn test-state-2 []
   [[:o :x :x] [:x nil nil] [:x nil nil]])
@@ -104,20 +102,6 @@
   []
   [[true false true] [false true false] [true false true]])
 
-
-;; TODO 
-(defn diagonal-solve
-  "returns true if the diagoanls are solved"
-  [state]
-  (-> state
-      (map (diagonal-map) ,,,)          ;zip it together with the filter map
-      ))
-
-;; sketch for the above
-;; TO DO
-(map (fn [x] (let [[l r] x] (and r l))) (map vector (diagonal-map) (test-state)))
-
-
 (defn make-a-move
   "Makes a move on the board
   :returns a board state
@@ -125,7 +109,8 @@
   For testing purposes it has two arrities one with a move already inserted
   and another one where the move is read from the stdin
   
-  TODO: input sanitisation"
+  TODO: input sanitisation
+  TODO: beautify it"
   
   ([state player]                            ;; the normal input version
    (loop [state state
