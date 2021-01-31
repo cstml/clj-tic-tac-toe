@@ -36,14 +36,15 @@
   (map (fn [x] (reduce + x)) state)) 
 
 (defn state-converter
-  "converts a received vetor to numerical values"
+  "converts a received state to numerical values"
   [x]
   (do (map (fn [x] (map (fn [x] (swapper x)) x)) x)))
 
 (defn row-calculate
   "Calculates if there are 3 in a row"
   [state]
-  (reduce (fn [x y] (or x y))(map swapper-winner (row-colapser (state-converter state)))))
+  (reduce (fn [x y] (or x y))
+          (map swapper-winner (row-colapser (state-converter state)))))
 
 (defn column-colapse
   "colapse columns into one vector"
@@ -64,7 +65,8 @@
 
 (defn final-state [state]
   (cond
-    (row-calculate state) true
+    (row-calculate state)    true
+    (column-calculate state) true
     true false))
 
 (defn player-win [player]
